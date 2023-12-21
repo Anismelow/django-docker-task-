@@ -1,0 +1,23 @@
+{% extends "base.html" %} 
+
+{% block content %}
+<div class="card  offset-md-3  w-50 mt-5"  >
+    <div class="card-body">
+      <h5 class="card-title">Bienbenido a Django Task</h5>
+      <p class="card-text">Este es un proyecto de una página de tareas que incorpora funciones
+        básicas de un CRUD, así como un sistema de inicio de sesión para acceder
+        a la página y un registro de usuario que solo muestra las tareas creadas
+        por el usuario.</p>
+        <p class="card-text">
+            Este proyecto ha sido desarrollado para poner en práctica mis
+        conocimientos sobre Django y las diversas bibliotecas que utiliza para
+        el manejo de usuarios y bases de datos, incluyendo PostgreSQL. Al
+        finalizar, crearé una imagen de Docker y, utilizando Docker Compose,
+        desplegaré tanto la imagen como la base de datos en contenedores.
+        Finalmente, desplegaré la aplicación en un clúster de ECS de AWS.
+        </p>
+      <a href="{% url 'login' %}" class="card-link">Iniciar sesión</a>
+      <a href="{% url 'registro' %}" class="card-link">Registrarse</a>
+    </div>
+  </div>
+ {% endblock %}
