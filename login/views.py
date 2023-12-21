@@ -1,8 +1,8 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
-# Create your views here.
 
 def index(request):
     return render(request, 'index.html')
@@ -41,7 +41,7 @@ def registro(request):
                 user = User.objects.create_user(request.POST['username'], password=request.POST['password1'])
                 user.save()
                 print(f'Se ha creado el usuario {user}')
-                return redirect('login')
+                return redirect('task')
             except:
                 return render(request, 'registro.html', {
                     'form': UserCreationForm,
@@ -56,4 +56,29 @@ def registro(request):
         return render(request, 'registro.html', {
             'form': UserCreationForm
         })
-               
+    
+
+def inicioSesion(request):
+    form = AuthenticationForm()
+    if request.method == 'POST':
+        try:
+            user = authenticate(request.POST['username'], password=request.POST['password'])
+            if user is not None:
+                login(request, user)
+                print(f'Se ha iniciado sesion el usuario {user}')
+                return redirect('task')
+            else:
+                return render(request, 'login.html', {
+                    'form': form,
+                    'error': 'Usuario o contraseña incorrectos'
+                })
+        except ValueError:
+            return render(request, 'login.html', {
+                'form': form,
+                'error': 'Usuario o contraseña incorrectos'
+            })
+    return render(request, 'login.html', {'form': form})
+
+
+def task(request):
+    return render(request, 'task.html')
